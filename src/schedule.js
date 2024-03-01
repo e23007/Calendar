@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { ulid } from 'ulid'
+import {Heading,Button,Container,Box,ListItem,UnorderedList,Divider,VStack,Input} from '@chakra-ui/react'
 
 //機能　メモの追加・記入日によるソート・localstorageに保存
 const Schedule = () => {
@@ -69,40 +70,58 @@ const Schedule = () => {
     setList(localStorage)
   }, [])
   return (
-    <>
-        <h1>{Message}</h1>
-        <input onChange={handleChangeTitle} type='text' value={title} placeholder='予定'/>
-        <button onClick={handleClick}>
+    <Container centerContent p={{ base: '4', md: '6' }} maxWidth='3xl'>
+      <Heading>{Message}</Heading>
+      <Box>
+        <Input
+          onChange={handleChangeTitle}
+          type='text'
+          value={title}
+          placeholder='予定'
+          bg='white'
+          mt='8'
+          borderColor='gray.400'
+        />
+        <Button onClick={handleClick} colorScheme='teal' variant='ghost'>
           追加
-        </button>
-        <button onClick={handleSort} colorScheme='teal' variant='ghost'>
+        </Button>
+        <Button onClick={handleSort} colorScheme='teal' variant='ghost'>
           ソート({desc ? '↑' : '↓'})
-        </button>
-        <button onClick={handleSave} colorScheme='teal' variant='ghost'>
+        </Button>
+        <Button onClick={handleSave} colorScheme='teal' variant='ghost'>
           保存
-        </button>
-      <ul>
+        </Button>
+      </Box>
+      <Divider />
+
+      <UnorderedList>
+        <VStack>
           {list.map((item,id) => (
-            <li key={id} as={item.isDone ? 's' : 'none'}>
+            <ListItem key={id} as={item.isDone ? 's' : 'none'}>
               {item.title}
-              <button
+              <Button
                 onClick={handleDone}
                 data-id={item.id}
+                colorScheme='teal'
+                variant='ghost'
                 type='button'
               >
                 済
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleRemove}
                 data-id={item.id}
+                colorScheme='teal'
+                variant='ghost'
                 type='button'
               >
                 削除
-              </button>
-            </li>
+              </Button>
+            </ListItem>
           ))}
-      </ul>
-      </>
+        </VStack>
+      </UnorderedList>
+    </Container>
   )
 }
 export default Schedule

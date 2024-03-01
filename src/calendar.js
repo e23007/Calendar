@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import {Container,Button,Box, Heading,Table,Thead,Tbody,Tr,Td,TableContainer,} from '@chakra-ui/react'
 
 // カレンダーの配列作成
 const createMatrix = (list, colN) => {
@@ -36,29 +37,29 @@ const createCalendar = (date, pad = ' ') => {
 // ここから下は出力
 // 曜日の為の関数
 const WeekCalendar = ({ week }) => (
-  <tr>
+  <Tr>
     {week.map((day,id) => (
-      <td key={id}>{day}</td>
+      <Td key={id}>{day}</Td>
     ))}
-  </tr>
+  </Tr>
 )
 
 // カレンダーの日付
 const MonthCalendar = ({ calendar }) => {
   const headings = '日月火水木金土'.split('')
   return (
-    <table>
-    <tr>
-      <th>
+    <TableContainer>
+    <Table>
+      <Thead>
         <WeekCalendar week={headings} />
-      </th>
-    </tr>
-    <tr>
+      </Thead>
+      <Tbody>
         {calendar.map((week,id)=> (
           <WeekCalendar week={week} key={id}/>
         ))}
-    </tr>
-    </table>
+      </Tbody>
+    </Table>
+    </TableContainer>
   )
 }
 
@@ -76,13 +77,15 @@ const Calendar = props => {
   const formatDate = d => `${d.getFullYear()}年${d.getMonth() + 1}月`
 
   return (
-    <div>
-      <h1>{formatDate(date)}</h1>
-        <button type='button' className='button' onClick={handleClick(-1)}>prev</button>
-        <button type='button' className='button' onClick={handleReset}>now</button>
-        <button type='button' className='button' onClick={handleClick(+1)}>next</button>
+    <Container centerContent p={{base:'4',md:'6'}} maxWidth={'3xl'} >
+      <Heading>{formatDate(date)}</Heading>
+      <Box>
+        <Button type='button' className='button' onClick={handleClick(-1)}>prev</Button>
+        <Button type='button' className='button' onClick={handleReset}>now</Button>
+        <Button type='button' className='button' onClick={handleClick(+1)}>next</Button>
+      </Box>
       <MonthCalendar calendar={createCalendar(date)} />
-    </div>
+    </Container>
   )
 }
 
